@@ -1,7 +1,7 @@
 const express = require("express");
 const database = require("../database/api");
 
-var apiDashboardRoutes = express.Router();
+var apiListRoutes = express.Router();
 
 function handleError(res, err){
     console.error("Database: ", err);
@@ -17,16 +17,16 @@ function handleSuccess(res, data){
     })
 }
 
-apiDashboardRoutes.post("/", function(req, res){
+apiListRoutes.post("/", function(req, res){
     var data = req.query || req.body;
-    database.model.dashboard.create(data, function(err, data){
+    database.model.list.create(data, function(err, data){
         if (err) return handleError(res,err);
         res.send(data)
     })
 })
-apiDashboardRoutes.get("/", function(req, res){
+apiListRoutes.get("/", function(req, res){
     var data = req.query || req.body;
-    database.model.dashboard.find(data, function(err, data){
+    database.model.list.find(data, function(err, data){
         if (err) return handleError(res,err);
         if(data.length == 0){
             return handleError(res,{errmsg:"Don't found"});
@@ -34,9 +34,9 @@ apiDashboardRoutes.get("/", function(req, res){
         handleSuccess(res, data)
     })
 })
-apiDashboardRoutes.delete("/", function(req, res){
+apiListRoutes.delete("/", function(req, res){
     var data = req.query || req.body;
-    database.model.dashboard.deleteOne(data, function(err, data){
+    database.model.list.deleteOne(data, function(err, data){
         if (err) return handleError(res,err);
         if(data.length == 0){
             return handleError(res,{errmsg:"Don't found"});
@@ -44,9 +44,9 @@ apiDashboardRoutes.delete("/", function(req, res){
         handleSuccess(res, data)
     })
 })
-apiDashboardRoutes.patch("/", function(req, res){
+apiListRoutes.patch("/", function(req, res){
     var data = req.query || req.body;
-    database.model.dashboard.updateOne({_id: data._id}, data, function(err, data){
+    database.model.list.updateOne({_id: data._id}, data, function(err, data){
         if (err) return handleError(res,err);
         if(data.length == 0){
             return handleError(res,{errmsg:"Don't found"});
@@ -54,4 +54,4 @@ apiDashboardRoutes.patch("/", function(req, res){
         handleSuccess(res, data)
     })
 })
-module.exports = apiDashboardRoutes
+module.exports = apiListRoutes
