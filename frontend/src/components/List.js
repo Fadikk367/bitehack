@@ -2,10 +2,29 @@ import React, {useState, useEffeft} from 'react';
 import Task from './Task';
 import '../styles/List.scss';
 
-
+const mock = {
+  tasks: [
+    {
+      id: 0,
+      name: "task 11",
+      checked: false
+    },
+    {
+      id: 1,
+      name: "task 12",
+      checked: false
+    },
+    {
+      id: 2,
+      name: "task 13",
+      checked: false
+    }
+  ],
+  completed: false
+};
 
 const List = props => {
-  const [list, setList] = useState(props.list || null);
+  const [list, setList] = useState(props.list || mock);
 
   const handleChange = (e) => {
     const newList = Object.assign({}, list);

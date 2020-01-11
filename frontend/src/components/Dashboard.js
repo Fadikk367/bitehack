@@ -1,4 +1,6 @@
 import React, {useState, useEffeft} from 'react';
+import List from './List';
+import Temp from './Temp';
 import '../styles/Dashboard.scss';
 import CytoscapeComponent from 'react-cytoscapejs';
 import popper from 'cytoscape-popper';
@@ -9,6 +11,9 @@ Cytoscape.use(klay);
 Cytoscape.use(popper);
 
 const Dashboard = props => {
+  const lists = props.lists ? props.lists.map((list, idx) => (
+    <Temp key={idx} list={list} previous={list.relations[0]}/>
+  )) : null;
   const elements = [
     { data: { id: 'one', label: 'Node 1' },  },
     { data: { id: 'two', label: 'Node 2' },  },
@@ -40,9 +45,7 @@ const Dashboard = props => {
 ];
  const [cy, setCy] = useState(null);
  async function cytoscapejsAfterInit (c){
-    console.log(c);
     await setCy(c);
-    console.log(cy);
     if(cy)
     {
       
@@ -66,7 +69,6 @@ const Dashboard = props => {
         });
       
         let update = () => {
-          console.log(cy.zoom())
           text.style.transform= `scale(${cy.zoom()})`;
           text.innerHTML = `${cy.zoom()}`;
           text.style.color = "blue";
@@ -80,7 +82,6 @@ const Dashboard = props => {
       
        console.log(cy.nodes().positions(
         function( node, i ){
-          console.log()
           return {
             x: node.position().x+10,
             y: node.position().y+10
