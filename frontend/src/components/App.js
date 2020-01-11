@@ -5,7 +5,6 @@ import Header from './Header';
 // import Toolbar from './Toolbar';
 import '../styles/App.scss';
 
-
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -24,6 +23,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import AddTaskForm from './AddTaskForm';
+import PlusButton from './PlusButton';
 
 const drawerWidth = 240;
 
@@ -89,14 +90,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
-
-
-
-
 const App = () => {
   const [data, setData] = useState({});
   const [lists, setLists] = useState({});
+  const [show, setShow] = useState(false);
+
+  const handleToggle = () => {
+    console.log(show);
+    setShow(!show);
+  }
+
+  const addList = (list) => {
+    const newLists = {...lists};
+    newLists.data.push(list);
+    setLists(newLists);
+  }
 
   const fetchInitialData = () => {
     fetch('https://diagramtest1.herokuapp.com/dashboard?name=dashboard')
@@ -197,6 +205,14 @@ const App = () => {
           {<Dashboard lists={lists ? lists.data : null }/>}
         </section>
       </main>
+      <section className="add__task">
+        
+        {show ? <AddTaskForm addList={addList} show={show} toggleShow={handleToggle}/> : null}
+      </section>
+      <div className="pls__btn" >
+        {<PlusButton toggleShow={handleToggle}/>}
+      </div>
+      <div className="overlay" style={show ? {display: 'block'} : {display: 'none'}}></div>
     </div>
   );}
 

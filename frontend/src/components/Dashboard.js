@@ -1,6 +1,5 @@
 import React, {useState, useEffeft} from 'react';
 import List from './List';
-import Temp from './Temp';
 import '../styles/Dashboard.scss';
 import CytoscapeComponent from 'react-cytoscapejs';
 import popper from 'cytoscape-popper';
