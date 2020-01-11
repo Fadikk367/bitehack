@@ -48,12 +48,14 @@ module.exports = function(model){
         })
     })
     apiRoutes.patch("/", function(req, res){
-        var data = req.query || req.body;
-        model.updateOne({_id: data._id}, data, function(err, data){
+
+        var data =  req.body;
+
+        model.findOneAndUpdate({_id: data._id}, data,{ new: true },   function(err, data){
             if (err) return handleError(res,err);
-            if(data.length == 0){
-                return handleError(res,{errmsg:"Don't found"});
-            }
+            // if(data.length == 0){
+            //     return handleError(res,{errmsg:"Don't found"});
+            // }
             handleSuccess(res, data);
         })
     })

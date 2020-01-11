@@ -5,8 +5,8 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import popper from 'cytoscape-popper';
 import klay from 'cytoscape-klay';
 import Cytoscape from 'cytoscape';
-import Temp from './Temp';
 import ReactDOM from 'react-dom';
+import Temp from './Temp';
 
 Cytoscape.use(klay);
 Cytoscape.use(popper);
