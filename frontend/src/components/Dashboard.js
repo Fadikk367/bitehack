@@ -1,6 +1,7 @@
 import React, {useState, useEffeft} from 'react';
-import Diagram from './Diagram';
-import '../styles/Dashboard.css';
+import List from './List';
+import Temp from './Temp';
+import '../styles/Dashboard.scss';
 import CytoscapeComponent from 'react-cytoscapejs';
 import popper from 'cytoscape-popper';
 import Cytoscape from 'cytoscape';
@@ -84,8 +85,7 @@ const Dashboard = props => {
     <div className="dashboard">
       <h2>Dashboard</h2>
       <CytoscapeComponent  cy={(cy)=> {cytoscapejsAfterInit(cy)}} elements={elements} stylesheet={stylesheet} style={ { width: '600px', height: '600px' } } />
-      <Diagram />
-      <Diagram />
+      <Temp />
     </div>
   );
 }
