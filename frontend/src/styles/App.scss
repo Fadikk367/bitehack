@@ -1,0 +1,45 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 20px;
+  font-family: 'Lato', sans-serif;
+}
+
+.App {
+  width: 100%;
+  background-color: rgb(90, 90, 90);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  position: relative;
+  flex-basis: 10vh;
+  background-color: rgb(252, 124, 124)
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+}
+
+aside {
+  min-width: 240px;
+  background-color: rgb(116, 245, 77);
+}
+
+section.page {
+  background-color: rgb(143, 201, 255);
+  flex-grow: 1;
+}
+
+.dashboard {
+  background-color: rgb(237, 248, 88);
+  width: 100%;
+}

@@ -1,5 +1,5 @@
 import React, {useState, useEffeft} from 'react';
-import '../styles/Menu.css';
+import '../styles/Menu.scss';
 
 const Menu = props => {
   return(

@@ -1,0 +1,24 @@
+.list {
+  width: 300px;
+  margin: 20px;
+  opacity: 0.7;
+}
+
+.list__header {
+  background-color: rgb(124, 230, 63);
+  padding-left: 30px;
+}
+
+.list__list {
+  list-style-type: none;
+  margin-bottom: 20px;
+  &:not(:last-child) {
+    border: 1px solid grey;
+  }
+}
+
+.list__item {
+  padding: 5px;
+  border-bottom: 1px solid grey;
+
+}
