@@ -43,7 +43,7 @@ const mock = {
 
 const SingleTask = ({name, checked, handleChange}) => {
     return(
-        <ListItem>
+        <ListItem >
             <Checkbox
                 name={name}
                 checked={checked}
@@ -70,11 +70,12 @@ const Temp = props => {
       setList(newList);
     }
 
-    const items = list.tasks.map(item => (
-        <SingleTask key={item.id} handleChange={handleChange} name={item.name} checked={item.checked}/>
+    const items = list.tasks.map((item, idx) => (
+        <SingleTask key={idx} handleChange={handleChange} name={item.name} checked={item.checked}/>
     ))
   return (
     <Box width={300}>
+        <div className="tasks_list" data-previous={props.previous}>
         <Card 
             style={{border: "2px solid #008403"}}
         >
@@ -90,6 +91,7 @@ const Temp = props => {
                 </List>
             </CardContent>
         </Card>
+        </div>
     </Box>
   );
 }

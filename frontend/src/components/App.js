@@ -88,22 +88,38 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// const [data, setData] = useState({});
 
-// const fetchInitialData = () => {
-//   fetch('https://diagramtest1.herokuapp.com/dashboard?name=dashboard1')
-//     .then(res => res.json())
-//     .then(data => {
-//       setData(data);
-//     });
-// }
 
-// useEffect(() => {
-//   fetchInitialData();
-// }, []);
+
+
 
 
 const App = () => {
+  const [data, setData] = useState({});
+  const [lists, setLists] = useState({});
+
+  const fetchInitialData = () => {
+    fetch('https://diagramtest1.herokuapp.com/dashboard?name=dashboard')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        setData(data);
+      });
+  }
+
+  const fetchLists = () => {
+    fetch(`https://diagramtest1.herokuapp.com/list?dashboardID=5e19f563b4237a46748739dc`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        setLists(data);
+      });
+  }
+  
+  useEffect(async () => {
+    await fetchInitialData();
+    fetchLists();
+  }, []);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -178,7 +194,7 @@ const App = () => {
         </aside>
         <section className="page">
           {<Toolbar />}
-          {<Dashboard />}
+          {<Dashboard lists={lists ? lists.data : null }/>}
         </section>
       </main>
     </div>
