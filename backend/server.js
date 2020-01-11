@@ -10,13 +10,9 @@ var cors = require('cors')
 
 var database = require("./controllers/database/api")
 
-database.connect().then(function(message){
-    console.log("Database: ",message)
-}).catch(function(error){
-    console.log("Database: ",error)
-})
 
-// app.use(cors())
+
+app.use(cors())
 
 // app.use(bodyParser.urlencoded({ extended: false }))
 // app.use(bodyParser.json())
