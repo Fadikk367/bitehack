@@ -29,7 +29,7 @@ apiDashboardRoutes.get("/", function(req, res){
     database.model.dashboard.find(data, function(err, data){
         if (err) return handleError(res,err);
         if(data.length == 0){
-            return handleError("Don't found",res);
+            return handleError(res,"Don't found");
         }
         handleSuccess(res, data)
     })
