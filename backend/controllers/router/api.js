@@ -10,7 +10,7 @@ mainRouter.use('/dashboard', apiDashboardRoutes);
 var apiListRoutes = apiRoutesFunction(database.model.list)
 mainRouter.use('/list', apiListRoutes);
 
-var apiTagRoutes = apiRoutesFunction(database.model.tag)
-mainRouter.use('/tag', apiTagRoutes);
+var apiUserRoutes = apiRoutesFunction(database.model.user)
+mainRouter.use('/user', apiUserRoutes);
 
 module.exports = mainRouter
