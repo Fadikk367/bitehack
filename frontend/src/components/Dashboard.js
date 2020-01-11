@@ -27,8 +27,25 @@ const Dashboard = props => {
   {
     selector: 'node',
     style: {
+      'shape':"barrel",
       'background-color': '#666',
-      'label': 'data(id)'
+      'label': 'data(id)',
+      'width': "100px",
+      'height': "150px",
+      "z-compound-depth":"bottom"
+    },
+
+  },
+
+  {
+    selector: 'node.active',
+    style: {
+      'shape':"barrel",
+      'background-color': '#266',
+      'label': 'data(id)',
+      'width': "100px",
+      'height': "150px",
+      "z-compound-depth":"top",
     }
   },
 
@@ -65,6 +82,9 @@ const Dashboard = props => {
             dash.appendChild( div );
       
             return div;
+          },
+          popper:{
+
           }
         });
       
@@ -76,6 +96,16 @@ const Dashboard = props => {
         };
         node.on('position', update);
         cy.on('pan resize zoom', update);
+
+        let nodeLast = null;
+        cy.on('grabon','node',function(e){
+          if(nodeLast)
+            nodeLast.removeClass("active");
+          let node = e.target;
+          node.addClass("active");         
+          nodeLast = node;
+        })
+        
         
       });
       cy.on('click', function(e){     
