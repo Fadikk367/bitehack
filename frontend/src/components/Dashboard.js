@@ -27,7 +27,7 @@ const Dashboard = props => {
       'shape':"rectangle",
       'background-color': '#008403',
       'width': "300px",
-      'height': "10px",
+      'height': "20px",
       "z-compound-depth":"bottom"
     },
 
@@ -44,11 +44,14 @@ const Dashboard = props => {
   {
     selector: 'edge',
     style: {
-      'width': 10,
+      'width': 5,
       "curve-style": "straight",
       'line-color': '#3333ff',
+      'mid-target-arrow-color': '#3333ff',
+      'mid-target-arrow-shape': 'triangle',
       'target-arrow-color': '#3333ff',
       'target-arrow-shape': 'triangle',
+      "z-compound-depth":"bottom"
     }
   }
 ];

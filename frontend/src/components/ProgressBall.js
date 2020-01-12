@@ -30,7 +30,7 @@ function ProgressBall(props) {
 
     const style = {
         position: 'absolute',
-        top: '-100px',
+        top: '-50px',
         left: '-100px',
         transform: 'scale(0.7)'
     }
