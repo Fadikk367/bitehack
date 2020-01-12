@@ -82,7 +82,15 @@ const Dashboard = props => {
   console.log(props.lists)
   console.log("Maping")
   props.lists.map((list, idx) => {createTaskList(list,lists[idx],container);});
-  props.lists.map((list, idx) => {cy.add(createEdge(list,props.lists[getRandomInt(props.lists.length)]))});
+  props.lists.map((list, idx) => {
+    list.relations.map(id=>{
+      console.log(id)
+
+      
+      cy.add(createEdge(props.lists.find(e => e._id == id),list))
+    })
+    
+  });
   let nodeLast = null;
   cy.on('grabon','node',function(e){
     if(nodeLast)

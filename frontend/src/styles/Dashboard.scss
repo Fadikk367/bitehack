@@ -1,6 +1,7 @@
 .dashboard{
     width: 100vw;
     height:calc(100vh - 64px );
+    user-select: none;
 }
 .scaleDiv{
     transform-origin: top center;
@@ -10,6 +11,4 @@
     height: 1px;
     z-index: 50;
 }
-*{
-    user-select: none;
-}
+
