@@ -1,4 +1,5 @@
 import React, {useState, useEffeft} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,7 +9,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
-
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Modal from '@material-ui/core/Modal';
 const mock = {
     tasks: [
       {
@@ -59,8 +62,27 @@ const SingleTask = ({name, checked, handleChange}) => {
     );
 }
 
+const useStyles = makeStyles(theme => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top:"50%",
+    left: "50%",
+    transform:"translate(-50%,-50%)"
+  },
+  modal: {
+    
+  }
+}));
+
 const Temp = props => {
     const [list, setList] = useState(props.list || mock);
+    const [open, setOpen] = React.useState(false);
+    const classes = useStyles();
 
     const handleChange = (e) => {
       const newList = Object.assign({}, list);
@@ -73,6 +95,15 @@ const Temp = props => {
     const items = list.tasks.map((item, idx) => (
         <SingleTask key={idx} handleChange={handleChange} name={item.name} checked={item.checked}/>
     ))
+
+    const handleOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
   return (
     <Box width={300}>
         <div className="tasks_list" data-previous={props.previous}>
@@ -81,9 +112,36 @@ const Temp = props => {
         >
             <CardHeader
                 title={list.name}
+                action={
+                  <div>
+                  <IconButton aria-label="settings" onClick={handleOpen}>
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <div  className={classes.paper}>
+                      <h2 id="simple-modal-title">{list.name}</h2>
+                      <h3>{list.date&&list.date!=Date(0)?list.date:""}</h3>
+                      <p id="simple-modal-description">
+                      {list.description||""}
+                      </p>
+                      <List component="nav" aria-label="mailbox folders">
+                          {items}
+                      </List>
+                    </div>
+                  </Modal>
+                  </div>
+                }
+                subheader={list.date&&list.date!=Date(0)?list.date:""}
                 color="primary"
                 style={{backgroundColor: '#68b733', color: 'white'}}
-            />
+            >
+              
+            </CardHeader>
              <CardContent>
                 <List component="nav" aria-label="mailbox folders">
                     {items}

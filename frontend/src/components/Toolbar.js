@@ -3,7 +3,6 @@ import { styled } from '@material-ui/core/styles';
 import '../styles/Toolbar.scss';
 import Button from "@material-ui/core/Button"
 
-
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 
