@@ -9,9 +9,10 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
+import ProgressBall from './ProgressBall';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Modal from '@material-ui/core/Modal';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 const mock = {
     tasks: [
       {
@@ -143,6 +144,10 @@ const Temp = props => {
               
             </CardHeader>
              <CardContent>
+                <ProgressBall
+                  style={{backgroundColor: 'white'}}
+                >
+                </ProgressBall>
                 <List component="nav" aria-label="mailbox folders">
                     {items}
                     <Divider light />
