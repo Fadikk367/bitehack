@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useRef} from 'react';
 import List from './List';
 import Temp from './Temp';
 import '../styles/Dashboard.scss';
@@ -18,16 +18,16 @@ const Dashboard = props => {
   const elements = [
     
  ];
- const layout = {name: 'klay',klay:{spacing: 100,thoroughness: 4,direction:'RIGHT'}};
+ const refContainer = useRef(null);
+ const layout = {name: 'klay',klay:{spacing: 300,thoroughness: 4,direction:'RIGHT'}};
  const stylesheet = [
   {
     selector: 'node',
     style: {
-      'shape':"barrel",
-      'background-color': '#666',
-      'label': 'data(id)',
-      'width': "100px",
-      'height': "150px",
+      'shape':"rectangle",
+      'background-color': '#008403',
+      'width': "300px",
+      'height': "10px",
       "z-compound-depth":"bottom"
     },
 
@@ -36,11 +36,7 @@ const Dashboard = props => {
   {
     selector: 'node.active',
     style: {
-      'shape':"barrel",
-      'background-color': '#266',
-      'label': 'data(id)',
-      'width': "100px",
-      'height': "150px",
+      'background-color': '#266',      
       "z-compound-depth":"top",
     }
   },
@@ -77,6 +73,7 @@ const Dashboard = props => {
   let container = document.createElement('div');
   container.classList.add("containerTasks")
   document.body.appendChild(container);
+  container=refContainer.current;
   
  
   if( props.lists)
@@ -114,22 +111,12 @@ const Dashboard = props => {
 
   let popper = node.popper({
     content: () => {             
-      container.appendChild( div );
-      console.log(scaleDiv.offsetWidth )
-      node.style("width",scaleDiv.children[0].offsetWidth+20);
-      node.style("height",scaleDiv.children[0].offsetHeight+20);
+      container.appendChild( div );    
+      
       return div;
     },
     popper:{
-      placement: 'top-start',
-      modifiers: [
-        {
-          name: 'preventOverflow',
-          options: {
-            rootBoundary:undefined
-          },
-        },
-      ]
+      placement: 'bottom-start',
     }
   }); 
   let update = () => {
@@ -161,9 +148,8 @@ const Dashboard = props => {
 }
   return(
     <div className="dashboard">
-      <h2>Dashboard</h2>
       <CytoscapeComponent  cy={(cy)=> {cytoscapejsAfterInit(cy)}} elements={elements} stylesheet={stylesheet} layout={layout} style={ { width: '100%', height: '100%' } } />
-    
+        <div ref={refContainer}></div>
     </div>
   );
 }

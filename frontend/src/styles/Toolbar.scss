@@ -1,4 +1,6 @@
 .toolbar {
   min-height: 50px;
   background-color: rgb(122, 224, 224);
+  position: relative; 
+  z-index 100;
 }
