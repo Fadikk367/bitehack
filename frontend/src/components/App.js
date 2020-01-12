@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Menu from './Menu';
 import Dashboard from './Dashboard';
 import Header from './Header';
-// import Toolbar from './Toolbar';
+import {default as MyToolbar} from './Toolbar';
 import '../styles/App.scss';
 
 import clsx from 'clsx';
@@ -201,7 +201,7 @@ const App = () => {
           {<Menu />}
         </aside>
         <section className="page">
-          {<Toolbar />}
+          {<MyToolbar />}
           {<Dashboard lists={lists ? lists.data : null }/>}
         </section>
       </main>
