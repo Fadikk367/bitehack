@@ -13,7 +13,7 @@ Cytoscape.use(popper);
 
 const Dashboard = props => {
   const lists = props.lists ? props.lists.map((list, idx) => (
-    <Temp key={idx} list={list} previous={list.relations[0]}/>
+    <Temp key={idx} idx={idx} list={list} previous={list.relations[0]} addTask={props.addTask}/>
   )) : null;
   const elements = [
     { data: { id: 'one', label: 'Node 1' },  },

@@ -106,6 +106,22 @@ const App = () => {
     setLists(newLists);
   }
 
+  const addTask = async (task, listIDX) => {
+    const newLists = {...lists};
+    newLists.data[listIDX].tasks.push(task);
+    await setLists(newLists);
+
+    fetch('https://diagramtest1.herokuapp.com/list', {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(newLists.data[listIDX])
+    })
+      .then(res => res.json())
+      .then(result => console.log(result));
+  }
+
   const fetchInitialData = () => {
     fetch('https://diagramtest1.herokuapp.com/dashboard?name=dashboard')
       .then(res => res.json())
@@ -202,7 +218,7 @@ const App = () => {
         </aside>
         <section className="page">
           {<Toolbar />}
-          {<Dashboard lists={lists ? lists.data : null }/>}
+          {<Dashboard addTask={addTask} lists={lists ? lists.data : null }/>}
         </section>
       </main>
       <section className="add__task">
