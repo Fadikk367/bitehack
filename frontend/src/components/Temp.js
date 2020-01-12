@@ -45,12 +45,12 @@ const mock = {
     name: "Lista 1"
   };
 
-const SingleTask = ({name, checked, handleChange}) => {
+const SingleTask = ({name, checked, handleChange, done}) => {
     return(
         <ListItem >
             <Checkbox
                 name={name}
-                checked={checked}
+                checked={done || checked}
                 value="checkedA"
                 onChange={handleChange}
                 inputProps={{ 'aria-label': 'Checkbox A' }}
@@ -78,6 +78,7 @@ const Temp = props => {
     }
 
     const handleTaskAdd = () => {
+      if (value.length === 0) return alert('Task name cannot be en empty string');
       const task = {
         name: value,
         checked: false
@@ -92,12 +93,14 @@ const Temp = props => {
       const newList = Object.assign({}, list);
       const idx = newList.tasks.findIndex(task => task.name === e.target.name);
       newList.tasks[idx].checked = e.target.checked;
+      newList.tasks[idx].done = e.target.checked;
       newList.completed = newList.tasks.reduce((total, b) => (total && b.checked));
+      props.updateList(newList);
       setList(newList);
     }
 
     const items = list.tasks.map((item, idx) => (
-        <SingleTask key={idx} handleChange={handleChange} name={item.name} checked={item.checked}/>
+        <SingleTask key={idx} done={item.done} handleChange={handleChange} name={item.name} checked={item.checked}/>
     ))
   return (
     <Box width={300}>
@@ -118,7 +121,7 @@ const Temp = props => {
                     <ListItem>
                       <Button style={{display: 'block'}} variant="contained" color="primary" onClick={handleClick} style={!show ? {display: 'block'} : {display: 'none'}}>
                         add
-                      </Button><br /><br />
+                      </Button><br />
                       <div style={show ? {display: 'block'} : {display: 'none'}}>
                         <TextField id="standard-basic" label="Standard" value={value} onChange={handleTextChange}/><Button variant="contained" color="primary" onClick={handleTaskAdd} style={{ marginTop: '10px'}}> add task</Button>
                         <Button color="primary" onClick={() => {setShow(!show)}} style={{ marginTop: '10px', marginLeft: '40px'}}>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Menu from './Menu';
 import Dashboard from './Dashboard';
 import Header from './Header';
-// import Toolbar from './Toolbar';
+import {default as MyToolbar} from './Toolbar';
 import '../styles/App.scss';
 
 import clsx from 'clsx';
@@ -25,6 +25,11 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import AddTaskForm from './AddTaskForm';
 import PlusButton from './PlusButton';
+import BuildIcon from '@material-ui/icons/Build';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import CallSplitIcon from '@material-ui/icons/CallSplit';
+
+const iconSet = [<CallSplitIcon />, <EqualizerIcon />, <BuildIcon />];
 
 const drawerWidth = 240;
 
@@ -139,6 +144,23 @@ const App = () => {
         setLists(data);
       });
   }
+
+  const updateList = (list) => {
+    const newLists = {...lists};
+    const idx = newLists.data.findIndex(el => el._id === list._id);
+    newLists.data[idx] = list;
+    fetch('https://diagramtest1.herokuapp.com/list', {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(newLists.data[idx])
+    })
+      .then(res => res.json())
+      .then(result => console.log(result));
+  
+    setLists(newLists);
+  }
   
   useEffect(async () => {
     await fetchInitialData();
@@ -184,6 +206,7 @@ const App = () => {
         </Toolbar>
       </AppBar>
       <Drawer
+        
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
@@ -196,7 +219,7 @@ const App = () => {
           }),
         }}
       >
-        <div className={classes.toolbar}>
+        <div className={classes.toolbar} >
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
@@ -205,7 +228,7 @@ const App = () => {
         <List>
           {['View', 'Statistics', 'Settings'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{iconSet[index]}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
@@ -217,8 +240,8 @@ const App = () => {
           {<Menu />}
         </aside>
         <section className="page">
-          {<Toolbar />}
-          {<Dashboard addTask={addTask} lists={lists ? lists.data : null }/>}
+          {<MyToolbar />}
+          {<Dashboard lists={lists ? lists.data : null } addTask={addTask} updateList={updateList}/>}
         </section>
       </main>
       <section className="add__task">
@@ -230,6 +253,7 @@ const App = () => {
       </div>
       <div className="overlay" style={show ? {display: 'block'} : {display: 'none'}}></div>
     </div>
-  );}
+  );
+}
 
 export default App;

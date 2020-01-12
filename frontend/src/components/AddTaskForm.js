@@ -9,6 +9,7 @@ const AddTaskForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (listTitle.length === 0) return alert('List cannot have empty name');
     const list = {
       name: listTitle,
       dashboardID: '5e19f563b4237a46748739dc',

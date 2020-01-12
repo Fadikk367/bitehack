@@ -13,7 +13,7 @@ Cytoscape.use(popper);
 
 const Dashboard = props => {
   const lists = props.lists ? props.lists.map((list, idx) => (
-    <Temp key={idx} idx={idx} list={list} previous={list.relations[0]} addTask={props.addTask}/>
+    <Temp key={idx} idx={idx} list={list} previous={list.relations[0]} addTask={props.addTask} updateList={props.updateList}/>
   )) : null;
   const elements = [
     { data: { id: 'one', label: 'Node 1' },  },
@@ -126,7 +126,6 @@ const Dashboard = props => {
 
   return(
     <div className="dashboard">
-      <h2>Dashboard</h2>
       <CytoscapeComponent  cy={(cy)=> {cytoscapejsAfterInit(cy)}} elements={elements} stylesheet={stylesheet} layout={{name: 'klay'}} style={ { width: '100%', height: '100%' } } />
     
     </div>
