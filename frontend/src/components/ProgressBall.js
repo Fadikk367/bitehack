@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import '../styles/ProgressBall.scss';
 
 function ProgressBall() {
     function initBall(val){
         var colorInc = 100 / 3;
         let that = document.querySelector(".percent");
         let water = document.querySelector(".water");
+        if(that == null)
+            return;
         var valOrig = val;
         
         if (valOrig == 0) {
