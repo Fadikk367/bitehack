@@ -1,4 +1,15 @@
 .dashboard{
-    width: 800px;
-    height: 800px;
+    width: 100vw;
+    height:calc(100vh - 64px );
+}
+.scaleDiv{
+    transform-origin: top center;
+}
+.pinDiv{
+    width: 1px;
+    height: 1px;
+    z-index: 50;
+}
+*{
+    user-select: none;
 }

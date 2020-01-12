@@ -1,4 +1,4 @@
-import React, {useState, useEffeft} from 'react';
+import React, {useState, useEffect,useRef} from 'react';
 import List from './List';
 import '../styles/Dashboard.scss';
 import CytoscapeComponent from 'react-cytoscapejs';
@@ -16,23 +16,18 @@ const Dashboard = props => {
     <Temp key={idx} idx={idx} list={list} previous={list.relations[0]} addTask={props.addTask} updateList={props.updateList}/>
   )) : null;
   const elements = [
-    { data: { id: 'one', label: 'Node 1' },  },
-    { data: { id: 'two', label: 'Node 2' },  },
-    { data: { id: 't3', label: 'Node 3' },  },
-    { data: { id: 't4', label: 'Node 3' },  },
-    { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2',"arrow": "triangle" } },
-    { data: { source: 'two', target: 't3', label: 'Edge from Node1 to Node2',"arrow": "triangle" } },
-    { data: { source: 'two', target: 't4', label: 'Edge from Node1 to Node2',"arrow": "triangle" } },
+    
  ];
+ const refContainer = useRef(null);
+ const layout = {name: 'klay',klay:{spacing: 300,thoroughness: 4,direction:'RIGHT'}};
  const stylesheet = [
   {
     selector: 'node',
     style: {
-      'shape':"barrel",
-      'background-color': '#666',
-      'label': 'data(id)',
-      'width': "100px",
-      'height': "150px",
+      'shape':"rectangle",
+      'background-color': '#008403',
+      'width': "300px",
+      'height': "10px",
       "z-compound-depth":"bottom"
     },
 
@@ -41,11 +36,7 @@ const Dashboard = props => {
   {
     selector: 'node.active',
     style: {
-      'shape':"barrel",
-      'background-color': '#266',
-      'label': 'data(id)',
-      'width': "100px",
-      'height': "150px",
+      'background-color': '#266',      
       "z-compound-depth":"top",
     }
   },
@@ -53,7 +44,7 @@ const Dashboard = props => {
   {
     selector: 'edge',
     style: {
-      'width': 3,
+      'width': 10,
       "curve-style": "straight",
       'line-color': '#3333ff',
       'target-arrow-color': '#3333ff',
@@ -64,70 +55,101 @@ const Dashboard = props => {
  const [cy, setCy] = useState(null);
  async function cytoscapejsAfterInit (c){
     await setCy(c);
-    if(cy)
+    if(cy && props.lists)
     {      
       cy.ready(function () {
         initGraph(cy)
       })  
-    }     
+    }         
  }
+
+ useEffect(() => {
+  
+});
 
  function initGraph(cy)
  {
-  let div  = document.createElement('div');  
-  ReactDOM.render(lists, div);
-  let dash = document.getElementsByClassName('dashboard')[0];  
-  let text = document.createElement('div');    
-  text.innerHTML = 'Mój div';
-  text.classList.add('text')
-  div.appendChild( text );
-  cy.ready(function () {
-    let node = cy.nodes().first();
-    let popper = node.popper({
-      content: () => {             
-  
-        dash.appendChild( div );
-  
-        return div;
-      },
-      popper:{
 
-      }
-    });
+  let container = document.createElement('div');
+  container.classList.add("containerTasks")
+  document.body.appendChild(container);
+  container=refContainer.current;
   
-    let update = () => {
-      console.log(cy.zoom())
-      text.style.transform= `scale(${cy.zoom()})`;
-      text.innerHTML = `${cy.zoom()}`;
-      text.style.color = "blue";
-      popper.scheduleUpdate();
-    };
-    node.on('position', update);
-    cy.on('pan resize zoom', update);
+ 
+  if( props.lists)
+  container.innerHTML=" ";
+  cy.elements().remove();
+  console.log(props.lists)
+  console.log("Maping")
+  props.lists.map((list, idx) => {createTaskList(list,lists[idx],container);});
+  props.lists.map((list, idx) => {cy.add(createEdge(list,props.lists[getRandomInt(props.lists.length)]))});
+  let nodeLast = null;
+  cy.on('grabon','node',function(e){
+    if(nodeLast)
+      nodeLast.removeClass("active");
+    let node = e.target;
+    node.addClass("active");         
+    nodeLast = node;
+  })
+  cy.layout(layout).run();
+  cy.fit(cy.nodes());
 
-    let nodeLast = null;
-    cy.on('grabon','node',function(e){
-      if(nodeLast)
-        nodeLast.removeClass("active");
-      let node = e.target;
-      node.addClass("active");         
-      nodeLast = node;
-    })
-    
-    
-  });
+
  }
 
+ function createTaskList(list,reactList,container)
+ {
+  let nodeObj = createNode(list);
+  cy.add(nodeObj);
+  let node = cy.$id(nodeObj.data.id);
+  let div  = document.createElement('div');  
+  div.classList.add('pinDiv'); 
+  let scaleDiv = document.createElement('div');    
+  scaleDiv.classList.add('scaleDiv');
+  div.appendChild( scaleDiv );
+  ReactDOM.render(reactList, scaleDiv);
 
+  let popper = node.popper({
+    content: () => {             
+      container.appendChild( div );    
+      
+      return div;
+    },
+    popper:{
+      placement: 'bottom-start',
+    }
+  }); 
+  let update = () => {
+    scaleDiv.style.transform= `scale(${cy.zoom()})`;
+    popper.scheduleUpdate();
+  };
+  node.on('position', update);
+  cy.on('pan resize zoom', update);
 
+  
+ }
 
-
-
-
+ function createNode(list)
+ {
+   return {
+    group: 'nodes',
+    data:{id:list._id}
+   }
+ }
+ function createEdge(a,b)
+ {
+   return {
+    group: 'edges',
+    data:{source:a._id,target:b._id}
+   }
+ }
+ function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
   return(
     <div className="dashboard">
-      <CytoscapeComponent  cy={(cy)=> {cytoscapejsAfterInit(cy)}} elements={elements} stylesheet={stylesheet} layout={{name: 'klay'}} style={ { width: '100%', height: '100%' } } />
-    
+      <CytoscapeComponent  cy={(cy)=> {cytoscapejsAfterInit(cy)}} elements={elements} stylesheet={stylesheet} layout={layout} style={ { width: '100%', height: '100%' } } />
+        <div ref={refContainer}></div>
     </div>
   );
 }
