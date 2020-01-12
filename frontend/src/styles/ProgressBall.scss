@@ -16,6 +16,7 @@
             height: 96%;
             transition: all 1s ease;
             background: black;
+            text-align: center;
             .water {
                 position: absolute;
                 z-index: 1;
@@ -42,7 +43,7 @@
                 font-weight: bold;
                 text-align: center;
                 line-height: 230%;
-                font-size: 350%;
+                font-size: 250%;
                 color: white;
                 transition: all 1s ease;
             }

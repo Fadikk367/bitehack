@@ -74,6 +74,11 @@ const Temp = props => {
       setValue('');
     }
 
+    const calcProgress = () => {
+      let result = parseInt(100*(list.tasks.filter(el => el.done).length / list.tasks.length));
+      return result;
+    }
+
     const handleTextChange = (e) => {
       setValue(e.target.value);
     }
@@ -104,7 +109,7 @@ const Temp = props => {
         <SingleTask key={idx} done={item.done} handleChange={handleChange} name={item.name} checked={item.checked}/>
     ))
   return (
-    <Box width={300}>
+    <Box width={300} style={{position: 'relative'}}>
         <div className="tasks_list" data-previous={props.previous}>
         <Card 
             style={{border: "2px solid #008403"}}
@@ -112,10 +117,10 @@ const Temp = props => {
             <CardHeader
                 title={list.name}
                 color="primary"
-                style={{backgroundColor: '#68b733', color: 'white'}}
+                style={{backgroundColor: '#68b733', color: 'white', textAlign: 'right'}}
             />
              <CardContent>
-                <ProgressBall
+                <ProgressBall val={calcProgress()}
                   style={{backgroundColor: 'white'}}
                 >
                 </ProgressBall>
